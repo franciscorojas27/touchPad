@@ -16,14 +16,28 @@
       "supportsTablet": true
     },
     "android": {
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.francisco27.touchPad",
+      "usesCleartextTraffic": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d5935faf-10b1-4a76-a3eb-da4567b35599"
+      }
+    },
+    "plugins": [
+      "expo-build-properties"
+    ]
   }
 }

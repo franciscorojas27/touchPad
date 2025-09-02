@@ -37,20 +37,7 @@
       }
     },
     "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "manifestApplicationAttributes": {
-              "android:usesCleartextTraffic": "true",
-              "android:networkSecurityConfig": "@xml/network_security_config"
-            },
-            "resourceFiles": [
-              "./android-res/xml/network_security_config.xml"
-            ]
-          }
-        }
-      ]
+      "./app.plugin.js"
     ]
   }
 }

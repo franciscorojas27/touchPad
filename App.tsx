@@ -6,13 +6,13 @@ import useWebSocket from './hooks/useWebSocket';
 
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
-  const { ipAddress, setIpAddress, sendMessage, connectionError } = useWebSocket();
+  const { ipAddress, setIpAddress, sendMessage, connectionError, isOpen } = useWebSocket();
 
   useEffect(() => {
     if (!ipAddress) setModalVisible(true);
     else if (connectionError) setModalVisible(true);
-    else setModalVisible(false);
-  }, [ipAddress, connectionError]);
+    else if (isOpen) setModalVisible(false);
+  }, [ipAddress, connectionError, isOpen]);
 
   const handleServerIp = (Ip: string) => { setIpAddress(Ip); setModalVisible(false); };
   const handleCloseModal = () => setModalVisible(false);

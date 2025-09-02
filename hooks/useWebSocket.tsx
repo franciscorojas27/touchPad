@@ -5,6 +5,7 @@ export default function useWebSocket() {
     const [connectionError, setConnectionError] = useState<string>('');
     const [attempt, setAttempt] = useState(0);
     const ws = useRef<WebSocket | null>(null);
+    const [isOpen, setIsOpen] = useState(false);
     const pingTimer = useRef<ReturnType<typeof setInterval> | null>(null);
     const connectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const hasOpenedRef = useRef(false);
@@ -22,7 +23,7 @@ export default function useWebSocket() {
         if (connectTimer.current) { clearTimeout(connectTimer.current); connectTimer.current = null; }
         if (ws.current) { try { ws.current.close(); } catch {} ws.current = null; }
         hasOpenedRef.current = false;
-        const socket = new WebSocket(`${ipAddress}`);
+    const socket = new WebSocket(`${ipAddress}`);
         ws.current = socket;
 
         socket.onerror = () => {
@@ -31,6 +32,7 @@ export default function useWebSocket() {
         };
         socket.onopen = () => {
             hasOpenedRef.current = true;
+            setIsOpen(true);
             setConnectionError('');
             if (connectTimer.current) { clearTimeout(connectTimer.current); connectTimer.current = null; }
             // keep-alive cada 25s
@@ -44,6 +46,7 @@ export default function useWebSocket() {
             }, 25000);
         };
         socket.onclose = () => {
+            setIsOpen(false);
             if (pingTimer.current) { clearInterval(pingTimer.current); pingTimer.current = null; }
             if (!hasOpenedRef.current) {
                 setConnectionError('No se pudo conectar. Revisa la IP/servidor.');
@@ -79,5 +82,5 @@ export default function useWebSocket() {
             console.warn('WS no abierto. Estado:', ws.current?.readyState);
         }
     };
-    return { ipAddress, setIpAddress, sendMessage, connectionError };
+    return { ipAddress, setIpAddress, sendMessage, connectionError, isOpen };
 };

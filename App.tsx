@@ -9,7 +9,9 @@ export default function App() {
   const { ipAddress, setIpAddress, sendMessage, connectionError } = useWebSocket();
 
   useEffect(() => {
-    if (!ipAddress || connectionError) setModalVisible(true);
+    if (!ipAddress) setModalVisible(true);
+    else if (connectionError) setModalVisible(true);
+    else setModalVisible(false);
   }, [ipAddress, connectionError]);
 
   const handleServerIp = (Ip: string) => { setIpAddress(Ip); setModalVisible(false); };
@@ -69,7 +71,7 @@ export default function App() {
       <View style={styles.bottomButtons}>
         <Button onPress={() => sendMessage(`click,left`)} title="Click" color="#1e90ff" />
         <Button onPress={() => sendMessage(`key,Left`)} title="    ←      " color="#1e90ff" />
-      <Button onPress={() => sendMessage(`key,Right`)} title="   →    " color="#1e90ff" />
+        <Button onPress={() => sendMessage(`key,Right`)} title="    →      " color="#1e90ff" />
       </View>
     </View>
   );

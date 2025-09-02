@@ -30,7 +30,6 @@ export default function AddressModal({ visible, onRequestClose, handlerServerIp,
         }
         setError('');
         const value = `ws://${inputValue}:8080`
-        setInputValue('')
         handlerServerIp(value)
     }
 
@@ -50,7 +49,7 @@ export default function AddressModal({ visible, onRequestClose, handlerServerIp,
                         keyboardType="numeric"
                         autoCapitalize="none"
                         autoCorrect={false}
-                        onChangeText={setInputValue}
+                        onChangeText={(text) => { setInputValue(text); if (error) setError(''); }}
                         value={inputValue}
                         placeholder="192.168.0.1"
                     />
@@ -59,7 +58,11 @@ export default function AddressModal({ visible, onRequestClose, handlerServerIp,
                         title="Cerrar y guardar"
                         onPress={() => handlerSave()}
                     />
-                    {error && <Text style={styles.textError}>{error}</Text>}
+                    {error ? (
+                        <Text style={styles.textError}>{error}</Text>
+                    ) : connectionError ? (
+                        <Text style={styles.textError}>{connectionError}</Text>
+                    ) : null}
                 </View>
             </View>
         </Modal>
@@ -67,7 +70,7 @@ export default function AddressModal({ visible, onRequestClose, handlerServerIp,
 }
 const styles = StyleSheet.create({
     text: {
-        color: '#ffffff',
+        color: '#000000ff',
         fontSize: 20,
         fontWeight: 'bold',
         margin: 10,
@@ -119,6 +122,7 @@ const styles = StyleSheet.create({
         height: 40,
         margin: 12,
         borderWidth: 1,
+        color: '#000000ff',
         padding: 10,
         width: 250,
         borderRadius: 5,
